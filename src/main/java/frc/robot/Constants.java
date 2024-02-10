@@ -117,15 +117,20 @@ public final class Constants {
         public static final int kDriverFieldOrientedButtonIdx = 1;
 
         public static final double kDeadband = 0.05;
-    } 
 
-    public static final class ArmConstants {
-        static final int ARM_CURRENT_LIMIT_A = 20;
-        static double ARM_OUTPUT_POWER = 0.8;
         public static final int armPresetButtonIndexA = 10;
         public static final int armPresetButtonIndexB = 11;
         public static final int armPresetButtonIndexC = 12;
+    } 
+
+    public static final class ArmConstants {
+        // static final int ARM_CURRENT_LIMIT_A = 20;
+        // static double ARM_OUTPUT_POWER = 0.8;
+        
         public static final int ARM_MOTOR_PORT = 9;
+        //ToDo
+        public static final double armPos = 0;
+
 
         public static final double LOW = 0;
                 public static final double MED = -175055;
@@ -134,9 +139,18 @@ public final class Constants {
                 public static final double TIPPED = LOW;
                 public static final double CHUTE = LOW;
                 public static final double SHELF = -103687;
-  
 
+    }
 
+    public static final class ShooterConstants {
+        public static final double leftPower = 0.4;
+        public static final double rightPower = 0.4;
+
+    }
+
+    public static final class LightingConstants {
+        public static final int lightPort = 0;
+        
 
     }
 }

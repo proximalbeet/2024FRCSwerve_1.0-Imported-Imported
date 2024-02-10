@@ -6,58 +6,91 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAlternateEncoder;
+import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
   
   public CANSparkMax ArmMotor;
-  PIDController armPID;
-  public double desiredArmPosition;
+  public RelativeEncoder throughBoreAbsoluteEncoder;
+  public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
+  SparkPIDController armPID;
+  public double desiredArmPosition;
   public ArmSubsystem(){
         ArmMotor = new CANSparkMax(9, MotorType.kBrushless);
+        throughBoreAbsoluteEncoder = ArmMotor.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature,8192);
+        armPID = ArmMotor.getPIDController();
+        ArmMotor.setIdleMode(IdleMode.kBrake);
 
-         desiredArmPosition = ArmConstants.COLLAPSED;
-
-    ArmMotor.setNeutralMode(NeutralMode.Brake);
-    ArmMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    armPID = new PIDController(
-      0.000005,
-      0.0000000001,
-      0
-    );
-
-    ArmMotor.config_kP(0, 0.000005);
+        /**
+         * By default, the PID controller will use the Hall sensor from a NEO for its
+         * feedback device. Instead, we can set the feedback device to the alternate
+         * encoder object
+         */
+        armPID.setFeedbackDevice(throughBoreAbsoluteEncoder);
+    
+        /**
+         * From here on out, code looks exactly like running PID control with the 
+         * built-in NEO encoder, but feedback will come from the alternate encoder
+         */ 
+    
+        // PID coefficients
+        kP = 0.1; 
+        kI = 1e-4;
+        kD = 1; 
+        kIz = 0; 
+        kFF = 0; 
+        kMaxOutput = 1; 
+        kMinOutput = -1;
+    
+        // set PID coefficients
+        armPID.setP(kP);
+        armPID.setI(kI);
+        armPID.setD(kD);
+        armPID.setIZone(kIz);
+        armPID.setFF(kFF);
+        armPID.setOutputRange(kMinOutput, kMaxOutput);
+    
+        // display PID coefficients on SmartDashboard
+        SmartDashboard.putNumber("P Gain", kP);
+        SmartDashboard.putNumber("I Gain", kI);
+        SmartDashboard.putNumber("D Gain", kD);
+        SmartDashboard.putNumber("I Zone", kIz);
+        SmartDashboard.putNumber("Feed Forward", kFF);
+        SmartDashboard.putNumber("Max Output", kMaxOutput);
+        SmartDashboard.putNumber("Min Output", kMinOutput);
+        SmartDashboard.putNumber("Set Rotations", 0);
   }
    
   @Override
   public void periodic() {
  
+   SmartDashboard.putNumber("armPosition", throughBoreAbsoluteEncoder.getPosition());
+  }
 
-   SmartDashboard.putNumber("armPosition", ArmMotor.getEncoder().getPosition());
+  public void driveArm(double position) {
 
-    armPID.setSetpoint(desiredArmPosition);
-    double calculation = armPID.calculate(ArmMotor.getEncoder().getPosition(), desiredArmPosition);
-    ArmMotor.set(ControlMode.PercentOutput, MathUtil.clamp(calculation, -1, 1));
+    armPID.setReference(position, CANSparkMax.ControlType.kPosition);
 
   }
 
-  public void driveArm(double speed) {
-    ArmMotor.set(ControlMode.PercentOutput, speed);
-  }
+  public double getArmPosition() { return throughBoreAbsoluteEncoder.getPosition();}
 
-  public double getArmPosition() { return ArmMotor.getEncoder().getPosition();}
 }
 
- // /** Creates a new Arm. */
+ // /** Creates a new Arm. */null
   // public void SetArmSpeed(double percent) {
   //   ArmMotor.set(percent);
   //   SmartDashboard.putNumber("arm power (%)", percent);

@@ -14,11 +14,15 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.LimeightShooter;
+import frc.robot.commands.ActivateShooterCmd;
+import frc.robot.commands.LimeightShootercmd;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -33,8 +37,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+
   private final Joystick driverJoystick1 = new Joystick(OIConstants.kDriverControllerPort);
-  //private final Joystick driverJoystick2 = new Joystick(OIConstants.kDriverControllerPort2);
+  private final Joystick driverJoystick2 = new Joystick(OIConstants.kDriverControllerPort2);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -57,9 +64,13 @@ public class RobotContainer {
     //new JoystickButton(driverJoystick, 2).whenPressed(() -> swerveSubsystem.zeroHeading());
     new JoystickButton(driverJoystick1, 2).onTrue(Commands.runOnce(() -> swerveSubsystem.zeroHeading() , swerveSubsystem));
 
-    //new JoystickButton(driverJoystick2, 2).onTrue(Commands.run(LimeightShooter::end));
+    new JoystickButton(driverJoystick2, Constants.OIConstants.armPresetButtonIndexA).onTrue(Commands.runOnce(() -> armSubsystem.driveArm(Constants.ArmConstants.armPos) , armSubsystem));
 
-
+    new JoystickButton(driverJoystick2, Constants.OIConstants.armPresetButtonIndexB)
+                              .whileTrue(new ActivateShooterCmd(
+                                      shooterSubsystem, 
+                                      () -> Constants.ShooterConstants.leftPower, 
+                                      () -> Constants.ShooterConstants.rightPower));
   }
 
 

@@ -17,8 +17,26 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     leftShooter = new CANSparkMax(10, MotorType.kBrushless);
     rightShooter = new CANSparkMax(11, MotorType.kBrushless);
+    rightShooter.setInverted(true);
   }
 
+  public void SetLeftShooterSpeed(double percent) {
+    leftShooter.set(percent);
+  }
+
+  public void SetRightShooterSpeed(double percent) {
+    rightShooter.set(percent);
+  }
+
+  public void ActivateShooter(double leftPercent, double rightPercent){
+    leftShooter.set(leftPercent);
+    rightShooter.set(rightPercent);
+  }
+
+  public void DeactivateShooter(){
+    leftShooter.set(0);
+    rightShooter.set(0);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

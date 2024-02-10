@@ -6,9 +6,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class LimeightShooter extends Command {
+public class LimeightShootercmd extends Command {
   /** Creates a new LimeightShooter. */
-  public LimeightShooter() {
+  public LimeightShootercmd() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
