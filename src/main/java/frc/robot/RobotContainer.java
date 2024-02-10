@@ -62,13 +62,19 @@ public class RobotContainer {
     //new JoystickButton(driverJoystick, 2).whenPressed(() -> swerveSubsystem.zeroHeading());
     new JoystickButton(driverJoystick1, 2).onTrue(Commands.runOnce(() -> swerveSubsystem.zeroHeading() , swerveSubsystem));
 
-    new JoystickButton(driverJoystick2, Constants.OIConstants.armPresetButtonIndexA).onTrue(Commands.runOnce(() -> armSubsystem.driveArm(Constants.ArmConstants.armPos) , armSubsystem));
+    new JoystickButton(driverJoystick2, Constants.OIConstants.PresetButtonIndexA).onTrue(Commands.runOnce(() -> armSubsystem.driveArm(Constants.ArmConstants.armPos) , armSubsystem));
 
-    new JoystickButton(driverJoystick2, Constants.OIConstants.armPresetButtonIndexB)
+    new JoystickButton(driverJoystick2, Constants.OIConstants.PresetButtonIndexB)
                               .whileTrue(new ActivateShooterCmd(
                                       shooterSubsystem, 
                                       () -> Constants.ShooterConstants.leftPower, 
                                       () -> Constants.ShooterConstants.rightPower));
+
+    new JoystickButton(driverJoystick2, Constants.OIConstants.PresetButtonIndexC)
+                              .whileTrue(new ActivateShooterCmd(
+                                      shooterSubsystem, 
+                                      () -> Constants.ShooterConstants.leftPowerN, 
+                                      () -> Constants.ShooterConstants.rightPowerN));
   }
 
 
@@ -81,6 +87,7 @@ public class RobotContainer {
         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
             .setKinematics(DriveConstants.kDriveKinematics);
 
+    //- - - - - Add Auton movements here - - - - -
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(0, 0, new Rotation2d()), 
       List.of(

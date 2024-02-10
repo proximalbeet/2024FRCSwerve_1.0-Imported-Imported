@@ -118,9 +118,9 @@ public final class Constants {
 
         public static final double kDeadband = 0.05;
 
-        public static final int armPresetButtonIndexA = 10;
-        public static final int armPresetButtonIndexB = 11;
-        public static final int armPresetButtonIndexC = 12;
+        public static final int PresetButtonIndexA = 10;
+        public static final int PresetButtonIndexB = 11;
+        public static final int PresetButtonIndexC = 12;
     } 
 
     public static final class ArmConstants {
@@ -145,6 +145,9 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final double leftPower = 0.4;
         public static final double rightPower = 0.4;
+
+        public static final double leftPowerN = -0.4;
+        public static final double rightPowerN = -0.4;
 
     }
 
