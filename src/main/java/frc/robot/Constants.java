@@ -44,16 +44,16 @@ public final class Constants {
                 new Translation2d(kWheelBase / 2, kTrackWidth / 2),
                 new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
                 new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
+        //Make sure can id's match with the robot
+        public static final int kFrontLeftDriveMotorPort = 1;
+        public static final int kBackLeftDriveMotorPort = 5;
+        public static final int kFrontRightDriveMotorPort = 3;
+        public static final int kBackRightDriveMotorPort = 7;
 
-        public static final int kFrontLeftDriveMotorPort = 8;
-        public static final int kBackLeftDriveMotorPort = 2;
-        public static final int kFrontRightDriveMotorPort = 6;
-        public static final int kBackRightDriveMotorPort = 4;
-
-        public static final int kFrontLeftTurningMotorPort = 7;
-        public static final int kBackLeftTurningMotorPort = 1;
-        public static final int kFrontRightTurningMotorPort = 5;
-        public static final int kBackRightTurningMotorPort = 3;
+        public static final int kFrontLeftTurningMotorPort = 2;
+        public static final int kBackLeftTurningMotorPort = 6;
+        public static final int kFrontRightTurningMotorPort = 4;
+        public static final int kBackRightTurningMotorPort = 8;
 
         public static final boolean kFrontLeftTurningEncoderReversed = true;
         public static final boolean kBackLeftTurningEncoderReversed = true;
@@ -64,17 +64,17 @@ public final class Constants {
         public static final boolean kBackLeftDriveEncoderReversed = true;
         public static final boolean kFrontRightDriveEncoderReversed = false;
         public static final boolean kBackRightDriveEncoderReversed = false;
-
-        public static final int kFrontLeftDriveAbsoluteEncoderPort = 3;
-        public static final int kBackLeftDriveAbsoluteEncoderPort = 1;
-        public static final int kFrontRightDriveAbsoluteEncoderPort = 4;
-        public static final int kBackRightDriveAbsoluteEncoderPort = 2;
+        //Make sure can id's match with the robot
+        public static final int kFrontLeftDriveAbsoluteEncoderPort = 1;
+        public static final int kBackLeftDriveAbsoluteEncoderPort = 3;
+        public static final int kFrontRightDriveAbsoluteEncoderPort = 2;
+        public static final int kBackRightDriveAbsoluteEncoderPort = 4;
 
         public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
         public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
         public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
-
+        //ToDo
         public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -0.1682;
         public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -0.1308;
         public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.061;
@@ -109,6 +109,7 @@ public final class Constants {
 
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
+        public static final int kDriverControllerPort2 = 1;
 
         public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;
@@ -117,4 +118,25 @@ public final class Constants {
 
         public static final double kDeadband = 0.05;
     } 
+
+    public static final class ArmConstants {
+        static final int ARM_CURRENT_LIMIT_A = 20;
+        static double ARM_OUTPUT_POWER = 0.8;
+        public static final int armPresetButtonIndexA = 10;
+        public static final int armPresetButtonIndexB = 11;
+        public static final int armPresetButtonIndexC = 12;
+        public static final int ARM_MOTOR_PORT = 9;
+
+        public static final double LOW = 0;
+                public static final double MED = -175055;
+                public static final double HIGH = -267090;
+                public static final double COLLAPSED = LOW;
+                public static final double TIPPED = LOW;
+                public static final double CHUTE = LOW;
+                public static final double SHELF = -103687;
+  
+
+
+
+    }
 }

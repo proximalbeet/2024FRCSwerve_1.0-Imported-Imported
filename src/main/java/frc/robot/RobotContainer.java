@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.LimeightShooter;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,17 +33,20 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
-  
+  private final Joystick driverJoystick1 = new Joystick(OIConstants.kDriverControllerPort);
+  //private final Joystick driverJoystick2 = new Joystick(OIConstants.kDriverControllerPort2);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
       swerveSubsystem,
-      () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-      () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-      () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-      () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+      () -> -driverJoystick1.getRawAxis(OIConstants.kDriverYAxis),
+      () -> driverJoystick1.getRawAxis(OIConstants.kDriverXAxis),
+      () -> driverJoystick1.getRawAxis(OIConstants.kDriverRotAxis),
+      () -> !driverJoystick1.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)
+      
+      ));
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -51,8 +55,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //Button on the Joystick that gets pressed to move the swerve drive
     //new JoystickButton(driverJoystick, 2).whenPressed(() -> swerveSubsystem.zeroHeading());
-    new JoystickButton(driverJoystick, 2).onTrue(Commands.runOnce(() -> swerveSubsystem.zeroHeading() , swerveSubsystem));
+    new JoystickButton(driverJoystick1, 2).onTrue(Commands.runOnce(() -> swerveSubsystem.zeroHeading() , swerveSubsystem));
+
+    //new JoystickButton(driverJoystick2, 2).onTrue(Commands.run(LimeightShooter::end));
+
+
   }
+
+
 
   
   public Command getAutonomousCommand() {
