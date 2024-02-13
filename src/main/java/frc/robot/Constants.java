@@ -45,12 +45,12 @@ public final class Constants {
                 new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
                 new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
         //Make sure can id's match with the robot
-        public static final int kFrontLeftDriveMotorPort = 1;
+        public static final int kFrontLeftDriveMotorPort = 2;
         public static final int kBackLeftDriveMotorPort = 5;
         public static final int kFrontRightDriveMotorPort = 3;
         public static final int kBackRightDriveMotorPort = 7;
 
-        public static final int kFrontLeftTurningMotorPort = 2;
+        public static final int kFrontLeftTurningMotorPort = 1;
         public static final int kBackLeftTurningMotorPort = 6;
         public static final int kFrontRightTurningMotorPort = 4;
         public static final int kBackRightTurningMotorPort = 8;
@@ -75,10 +75,10 @@ public final class Constants {
         public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
         //ToDo
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -0.1682;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -0.1308;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.061;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.3076;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0.162;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -0.376;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -0.443;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.073;
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
@@ -121,6 +121,7 @@ public final class Constants {
         public static final int PresetButtonIndexA = 10;
         public static final int PresetButtonIndexB = 11;
         public static final int PresetButtonIndexC = 12;
+        public static final int PresetHeadingZero = 2;
     } 
 
     public static final class ArmConstants {
@@ -129,7 +130,7 @@ public final class Constants {
         
         public static final int ARM_MOTOR_PORT = 9;
         //ToDo
-        public static final double armPos = 0;
+        public static final double armPos = 1000;
 
 
         public static final double LOW = 0;

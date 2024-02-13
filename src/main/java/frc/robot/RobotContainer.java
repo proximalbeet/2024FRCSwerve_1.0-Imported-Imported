@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import java.io.Console;
 import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -44,15 +45,28 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    /* 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
       swerveSubsystem,
       () -> -driverJoystick1.getRawAxis(OIConstants.kDriverYAxis),
       () -> driverJoystick1.getRawAxis(OIConstants.kDriverXAxis),
       () -> driverJoystick1.getRawAxis(OIConstants.kDriverRotAxis),
       () -> !driverJoystick1.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)
-      
       ));
-    // Configure the button bindings
+      */
+
+    swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+      swerveSubsystem,
+      () -> -driverJoystick1.getRawAxis(OIConstants.kDriverYAxis),
+      () -> driverJoystick1.getRawAxis(OIConstants.kDriverXAxis),
+      () -> driverJoystick1.getRawAxis(OIConstants.kDriverRotAxis),
+      () -> !driverJoystick1.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)
+      ));
+
+        System.out.println(!driverJoystick1.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx));
+     
+      
+        // Configure the button bindings
     configureButtonBindings();
   }
 
@@ -60,7 +74,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //Button on the Joystick that gets pressed to move the swerve drive
     //new JoystickButton(driverJoystick, 2).whenPressed(() -> swerveSubsystem.zeroHeading());
-    new JoystickButton(driverJoystick1, 2).onTrue(Commands.runOnce(() -> swerveSubsystem.zeroHeading() , swerveSubsystem));
+    new JoystickButton(driverJoystick1, Constants.OIConstants.PresetHeadingZero).onTrue(Commands.runOnce(() -> swerveSubsystem.zeroHeading() , swerveSubsystem));
 
     new JoystickButton(driverJoystick2, Constants.OIConstants.PresetButtonIndexA).onTrue(Commands.runOnce(() -> armSubsystem.driveArm(Constants.ArmConstants.armPos) , armSubsystem));
 
