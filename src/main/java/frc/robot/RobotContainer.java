@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import java.io.Console;
 import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -60,7 +59,7 @@ public class RobotContainer {
       () -> -driverJoystick1.getRawAxis(OIConstants.kDriverYAxis),
       () -> driverJoystick1.getRawAxis(OIConstants.kDriverXAxis),
       () -> driverJoystick1.getRawAxis(OIConstants.kDriverRotAxis),
-      () -> !driverJoystick1.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)
+      () -> driverJoystick1.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)
       ));
 
         System.out.println(!driverJoystick1.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx));

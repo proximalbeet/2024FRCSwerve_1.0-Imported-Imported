@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.CANcoder;
 //import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax;
@@ -10,7 +11,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.Constants.DriveConstants;
@@ -23,14 +23,13 @@ public class SwerveModule {
     private final CANSparkMax turningMotor;
 
     //Encoders
-    //CANCoder Is Depreciated
     private final RelativeEncoder driveEncoder;
     private final RelativeEncoder turningEncoder;
  
 
     private final PIDController turningPidController;
 
-    private final AnalogInput absoluteEncoder;
+    private final CANcoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private final double absoluteEncoderOffsetRad;
 
@@ -39,7 +38,7 @@ public class SwerveModule {
     {
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
         this.absoluteEncoderReversed = absoluteEncoderReversed;
-        absoluteEncoder = new AnalogInput(absoluteEncoderId);
+        absoluteEncoder = new CANcoder(absoluteEncoderId);
         
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
@@ -49,6 +48,7 @@ public class SwerveModule {
 
         driveEncoder =  driveMotor.getEncoder();
         turningEncoder =  turningMotor.getEncoder();
+
 
         driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
         driveEncoder.setVelocityConversionFactor(ModuleConstants.KdriveEncoderRPM2MeterPerSec);
@@ -80,8 +80,9 @@ public class SwerveModule {
         return turningEncoder.getVelocity();
     }
 
+    //TODO: Something is cooking
     public double getAbsoluteEncoderRad(){
-        double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
+        double angle = absoluteEncoder.getSupplyVoltage().getValueAsDouble() / RobotController.getVoltage5V();
         angle *= 2.0 * Math.PI;
         angle -= absoluteEncoderOffsetRad;
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
@@ -96,6 +97,7 @@ public class SwerveModule {
         return new SwerveModuleState(getDriveVelcity(), new Rotation2d(getTurningPosition()));
     }
     
+    
     public void setDesiredState(SwerveModuleState state){
 
         if (Math.abs(state.speedMetersPerSecond) < 0.001){
@@ -106,7 +108,7 @@ public class SwerveModule {
         state = SwerveModuleState.optimize(state, getState().angle);
         driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
-        SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
+        SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state", state.toString());
         
     }
 
